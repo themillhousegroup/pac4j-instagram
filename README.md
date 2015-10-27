@@ -37,9 +37,9 @@ import com.themillhousegroup.pac4j-underarmour
 ### Branding 
 Note that according to the [Developer Guidelines](https://developer.underarmour.com/docs/v70_Authentication) you are __required__ to use the following buttons for login buttons:
 
-[b1](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-xlarge.png)
-[b2](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-large.png)
-[b3](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-medium.png)
+![b1](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-xlarge.png)
+![b2](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-large.png)
+![b3](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-medium.png)
 
 Don't forget! 
 
