@@ -1,18 +1,28 @@
 package com.themillhousegroup.pac4junderarmour
 
 import org.pac4j.oauth.client._
-import org.pac4j.oauth.profile.OAuth20Profile
+import org.pac4j.oauth.credentials.OAuthCredentials
+import org.pac4j.core.client.BaseClient
+import org.scribe.model.Token
+import org.pac4j.core.context.WebContext
 
-class UnderArmourClient extends BaseOAuth20Client[UnderArmourProfile] {
+/**
+ * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register
+ */
+class UnderArmourClient(key: String, secret: String) extends BaseOAuth20Client[UnderArmourProfile] {
 
-  protected def newClient(): org.pac4j.core.client.BaseClient[org.pac4j.oauth.credentials.OAuthCredentials, com.themillhousegroup.pac4junderarmour.UnderArmourProfile] = ???
+  protected def newClient(): BaseClient[OAuthCredentials, UnderArmourProfile] = {
+    new UnderArmourClient(key, secret)
+  }
 
-  protected def requiresStateParameter(): Boolean = ???
+  protected def requiresStateParameter(): Boolean = false
 
-  protected def getProfileUrl(x$1: org.scribe.model.Token): String = ???
+  protected def getProfileUrl(accessToken: Token): String = "https://api.ua.com/v7.1/user/self/"
 
-  protected def hasBeenCancelled(x$1: org.pac4j.core.context.WebContext): Boolean = ???
+  protected def hasBeenCancelled(context: WebContext): Boolean = false
 
-  protected def extractUserProfile(x$1: String): com.themillhousegroup.pac4junderarmour.UnderArmourProfile = ???
+  protected def extractUserProfile(body: String): UnderArmourProfile = {
+    null
+  }
 
 }
