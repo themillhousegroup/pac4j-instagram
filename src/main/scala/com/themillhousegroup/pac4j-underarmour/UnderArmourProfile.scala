@@ -165,10 +165,6 @@ class UnderArmourProfile extends OAuth20Profile {
 
   override val getProfileUrl: String = UNDERARMOUR_SELF_PROFILE_URL
 
-  override def getLocation: String = {
-    getString(UnderArmourAttributesDefinition.LOCALITY)
-  }
-
   override def getGender: Gender = {
     val gender = getString(UnderArmourAttributesDefinition.GENDER)
     if ("M".equals(gender)) {
@@ -180,15 +176,11 @@ class UnderArmourProfile extends OAuth20Profile {
     }
   }
 
-  def getResourceState: Integer = {
-    get[Integer](UnderArmourAttributesDefinition.RESOURCE_STATE);
+  override def getLocation: String = {
+    getFullLocation.locality
   }
 
-  def getState: String = {
-    getString(UnderArmourAttributesDefinition.REGION)
-  }
-
-  def getCountry: String = {
-    getString(UnderArmourAttributesDefinition.COUNTRY)
+  def getFullLocation: UnderArmourLocation = {
+    get(UnderArmourAttributesDefinition.LOCATION)
   }
 }
