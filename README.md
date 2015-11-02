@@ -19,10 +19,13 @@ Bring in the library by adding the following to your ```build.sbt```.
 
 ```
    libraryDependencies ++= Seq(
-     "com.themillhousegroup" %% "pac4j-underarmour" % "0.1.0"
+     "com.themillhousegroup" %% "pac4j-underarmour" % "0.1.9"
    )
 
 ```
+
+Please note - this library is not ready for production use! Once it is, the version number will be in the `1.x` range.
+
 
 ### Usage
 
