@@ -1,7 +1,17 @@
-package com.themillhousegroup.pac4j-underarmour
+package com.themillhousegroup.pac4junderarmour
 
-- underarmour
+import org.specs2.mutable.Specification
 
-class UnderArmourClientSpec {
+class UnderArmourClientSpec extends Specification {
+  "UnderArmour client" should {
+    "be instantiable" in {
+      val uac = new UnderArmourClient("key", "secret")
+      uac must not beNull
+    }
 
+    "be instantiable" in {
+      val uac = new UnderArmourClient("key", "secret")
+      uac must not beNull
+    }
+  }
 }
