@@ -9,7 +9,10 @@ import org.pac4j.core.context.WebContext
 /**
  * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register
  */
-class UnderArmourClient(key: String, secret: String) extends BaseOAuth20Client[UnderArmourProfile] {
+class UnderArmourClient(underArmourKey: String, clientSecret: String) extends BaseOAuth20Client[UnderArmourProfile] {
+
+  setKey(underArmourKey)
+  setSecret(clientSecret)
 
   protected def newClient(): BaseClient[OAuthCredentials, UnderArmourProfile] = {
     new UnderArmourClient(key, secret)

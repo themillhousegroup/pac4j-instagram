@@ -9,8 +9,10 @@ class UnderArmourClientSpec extends Specification {
       uac must not beNull
     }
 
-    "be instantiable" in {
+    "be initializable by pac4j calling init()" in {
       val uac = new UnderArmourClient("key", "secret")
+      uac.setCallbackUrl("callbackUrl")
+      uac.init // will throw if things are not right
       uac must not beNull
     }
   }
