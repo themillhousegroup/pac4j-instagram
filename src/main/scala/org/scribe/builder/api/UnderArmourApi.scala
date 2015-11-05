@@ -11,11 +11,11 @@ object UnderArmourApi {
   /**
    * UnderArmour authorization URL
    */
-  private val AUTHORIZE_URL = "https://www.strava.com/oauth/authorize?approval_prompt=%s&response_type=code&client_id=%s&redirect_uri=%s"
+  private val AUTHORIZE_URL = "https://api.mapmyfitness.com/v7.1/oauth2/authorize/?"
 
   private val SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s"
 
-  private val ACCESS_TOKEN_URL = "https://www.strava.com/oauth/token"
+  private val ACCESS_TOKEN_URL = "https://api.mapmyfitness.com/v7.1/oauth2/access_token/"
 
   /**
    * Need to redefine the token extractor, because the token comes from Strava in json format.
