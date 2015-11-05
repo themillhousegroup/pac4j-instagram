@@ -15,8 +15,6 @@ import org.scribe.builder.api.UnderArmourApi
  */
 class UnderArmourClient(underArmourKey: String, clientSecret: String) extends BaseOAuth20Client[UnderArmourProfile] {
 
-  val approvalPrompt = "force" // FIXME
-
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
    */
@@ -32,7 +30,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
     super.internalInit()
     service =
       new ProxyOAuth20ServiceImpl(
-        new UnderArmourApi(approvalPrompt),
+        new UnderArmourApi(),
         new OAuthConfig(key, secret, callbackUrl, SignatureType.Header, scope, null),
         connectTimeout,
         readTimeout,
