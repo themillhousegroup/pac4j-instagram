@@ -11,7 +11,7 @@ object UnderArmourApi {
   /**
    * UnderArmour authorization URL
    */
-  private val AUTHORIZE_URL = "https://api.mapmyfitness.com/v7.1/oauth2/authorize/?client_id=%s&response_type=code&redirect_uri=%s"
+  private val AUTHORIZE_URL = "https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/?client_id=%s&response_type=code&redirect_uri=%s"
 
   private val ACCESS_TOKEN_URL = "https://api.mapmyfitness.com/v7.1/oauth2/access_token"
 
