@@ -37,7 +37,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
         proxyHost,
         proxyPort,
         false,
-        false)
+        true)
   }
 
   protected def requiresStateParameter(): Boolean = false
