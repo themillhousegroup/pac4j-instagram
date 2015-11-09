@@ -5,10 +5,10 @@ import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.core.client.BaseClient
 import org.scribe.model.Token
 import org.pac4j.core.context.WebContext
-import org.scribe.oauth.ProxyOAuth20ServiceImpl
+import org.scribe.oauth.{ ProxyAuth20WithHeadersServiceImpl, ProxyOAuth20ServiceImpl }
 import org.scribe.model.OAuthConfig
 import org.scribe.model.SignatureType
-import org.scribe.builder.api.UnderArmourApi
+import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
 
 /**
  * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register
@@ -29,7 +29,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
   protected override def internalInit(): Unit = {
     super.internalInit()
     service =
-      new ProxyOAuth20ServiceImpl(
+      new ProxyAuth20WithHeadersServiceImpl(
         new UnderArmourApi(),
         new OAuthConfig(key, secret, callbackUrl, SignatureType.Header, scope, null),
         connectTimeout,
@@ -37,7 +37,14 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
         proxyHost,
         proxyPort,
         false,
-        true)
+        true) {
+        override def addHeaders(requestToken: Token, api: DefaultApi20, config: OAuthConfig): List[(String, String)] = {
+          // As per:
+          // https://developer.underarmour.com/docs/v71_OAuth_2_Intro
+          // we need to add "Api-Key" with the client ID
+          List("Api-Key" -> config.getApiKey)
+        }
+      }
   }
 
   protected def requiresStateParameter(): Boolean = false

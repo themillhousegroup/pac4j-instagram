@@ -9,7 +9,7 @@ import scala.Predef.String
  * For Oauth2 implementations that need to also set HTTP headers
  * in their requests (e.g UnderArmour)
  */
-abstract class ProxyAuth20WithHeadersServiceImpl(
+class ProxyAuth20WithHeadersServiceImpl(
   api: DefaultApi20,
   config: OAuthConfig,
   connectTimeout: Int,
@@ -56,5 +56,7 @@ abstract class ProxyAuth20WithHeadersServiceImpl(
     return this.api.getAccessTokenExtractor.extract(response.getBody)
   }
 
-  def addHeaders(requestToken: Token, api: DefaultApi20, config: OAuthConfig): List[(String, String)]
+  def addHeaders(requestToken: Token, api: DefaultApi20, config: OAuthConfig): List[(String, String)] = {
+    Nil
+  }
 }
