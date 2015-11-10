@@ -28,6 +28,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
 
   protected override def internalInit(): Unit = {
     super.internalInit()
+    println(s"UnderArmourClient::internalInit: Using callbackUrl: '${callbackUrl}'")
     service =
       new ProxyAuth20WithHeadersServiceImpl(
         new UnderArmourApi(),
@@ -42,6 +43,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
           // As per:
           // https://developer.underarmour.com/docs/v71_OAuth_2_Intro
           // we need to add "Api-Key" with the client ID
+          println(s"UnderArmourClient::addHeaders: Setting 'Api-Key' HTTP header to '${config.getApiKey}'")
           List("Api-Key" -> config.getApiKey)
         }
       }
