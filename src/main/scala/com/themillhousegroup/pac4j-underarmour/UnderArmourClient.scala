@@ -10,6 +10,7 @@ import org.scribe.model.OAuthConfig
 import org.scribe.model.SignatureType
 import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
 import java.net.URL
+import scala.sys.process.processInternal.URL
 
 /**
  * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register

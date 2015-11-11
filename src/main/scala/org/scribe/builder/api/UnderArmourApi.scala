@@ -6,6 +6,8 @@ import org.scribe.model.OAuthConfig
 import org.scribe.model.Verb
 import org.scribe.utils.OAuthEncoder
 import org.scribe.utils.Preconditions
+import scala.math.Ordering.String
+import scala.Predef.String
 
 object UnderArmourApi {
   /**
@@ -13,7 +15,7 @@ object UnderArmourApi {
    */
   private val AUTHORIZE_URL = "https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/?client_id=%s&response_type=code&redirect_uri=%s"
 
-  private val ACCESS_TOKEN_URL = "https://api.mapmyfitness.com/v7.1/oauth2/access_token"
+  private val ACCESS_TOKEN_URL = "https://api.ua.com/v7.1/oauth2/uacf/access_token/"
 
   /**
    * Need to redefine the token extractor, because the token comes from Strava in json format.
