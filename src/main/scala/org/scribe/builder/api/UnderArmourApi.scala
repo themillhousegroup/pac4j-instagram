@@ -44,5 +44,4 @@ class UnderArmourApi extends DefaultApi20 {
     println(s"UnderArmourApi::getAuthUrl returning '$aUrl'")
     aUrl
   }
-
 }

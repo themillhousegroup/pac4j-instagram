@@ -46,7 +46,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
     service =
       new ProxyAuth20WithHeadersServiceImpl(
         new UnderArmourApi(),
-        new OAuthConfig(key, secret, callbackUrl, SignatureType.Header, scope, null),
+        new OAuthConfig(key, secret, modifiedCallbackUrl, SignatureType.Header, scope, null),
         connectTimeout,
         readTimeout,
         proxyHost,
