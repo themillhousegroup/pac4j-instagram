@@ -6,8 +6,6 @@ import org.scribe.model.OAuthConfig
 import org.scribe.model.Verb
 import org.scribe.utils.OAuthEncoder
 import org.scribe.utils.Preconditions
-import scala.math.Ordering.String
-import scala.Predef.String
 
 object UnderArmourApi {
   /**
