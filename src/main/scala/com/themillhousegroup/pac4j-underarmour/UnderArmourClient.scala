@@ -40,8 +40,8 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
 
     println(s"UnderArmourClient::internalInit: Using callbackUrl: '${callbackUrl}'")
     val u = new URL(callbackUrl)
-    val newPath = s"/UnderArmourClient${u.path}"
-    val modifiedCallbackUrl = s"${u.protocol}://${u.authority}/$newPath"
+    val newPath = s"/UnderArmourClient${u.getPath}"
+    val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}/$newPath"
     println(s"UnderArmourClient::internalInit: Using modified callbackUrl: '${modifiedCallbackUrl}'")
     service =
       new ProxyAuth20WithHeadersServiceImpl(
