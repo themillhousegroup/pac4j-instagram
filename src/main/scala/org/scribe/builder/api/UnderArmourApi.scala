@@ -11,9 +11,9 @@ object UnderArmourApi {
   /**
    * UnderArmour authorization URL
    */
-  private val AUTHORIZE_URL = "https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/?client_id=%s&response_type=code&redirect_uri=%s"
+  private val AUTHORIZE_URL = "https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/?response_type=code&client_id=%s&redirect_uri=%s"
 
-  private val ACCESS_TOKEN_URL = "https://api.ua.com/v7.1/oauth2/uacf/access_token/"
+  private val ACCESS_TOKEN_URL = "https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/"
 
   /**
    * Need to redefine the token extractor, because the token comes from Strava in json format.
@@ -41,7 +41,7 @@ class UnderArmourApi extends DefaultApi20 {
       OAuthEncoder.encode(config.getCallback)
     )
 
-    println(s"UnderArmourApi::getAuthUrl returning '$aUrl'")
+    println(s"UnderArmourApi::getAuthUrl client_id is '${config.getApiKey}'; returning '$aUrl'")
     aUrl
   }
 }
