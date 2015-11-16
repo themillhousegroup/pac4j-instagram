@@ -6,6 +6,7 @@ import org.pac4j.core.client.BaseClient
 import org.scribe.model.Token
 import org.pac4j.core.context.WebContext
 import org.scribe.oauth.{ ProxyAuth20WithHeadersServiceImpl, ProxyOAuth20ServiceImpl }
+import org.scribe.model.ProxyOAuthRequest
 import org.scribe.model.OAuthConfig
 import org.scribe.model.SignatureType
 import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
@@ -22,6 +23,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
   protected val scope: String = null
   setKey(underArmourKey)
   setSecret(clientSecret)
+  setTokenAsHeader(true)
 
   protected def newClient(): BaseClient[OAuthCredentials, UnderArmourProfile] = {
     new UnderArmourClient(key, secret)
@@ -38,11 +40,9 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
     // http://my-app:9000/UnderArmourClient/callback
     // This will need support in your client app's routes mapping
 
-    println(s"UnderArmourClient::internalInit: Using callbackUrl: '${callbackUrl}'")
     val u = new URL(callbackUrl)
     val newPath = s"UnderArmourClient${u.getPath}"
     val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}/$newPath"
-    println(s"UnderArmourClient::internalInit: Using modified callbackUrl: '${modifiedCallbackUrl}'")
     service =
       new ProxyAuth20WithHeadersServiceImpl(
         new UnderArmourApi(),
@@ -57,7 +57,6 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
           // As per:
           // https://developer.underarmour.com/docs/v71_OAuth_2_Intro
           // we need to add "Api-Key" with the client ID
-          println(s"UnderArmourClient::addHeaders: Setting 'Api-Key' HTTP header to '${config.getApiKey}'")
           List("Api-Key" -> config.getApiKey)
         }
       }
@@ -65,7 +64,14 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
 
   protected def requiresStateParameter(): Boolean = false
 
-  protected def getProfileUrl(accessToken: Token): String = "https://api.ua.com/v7.1/user/self/"
+  protected def getProfileUrl(accessToken: Token): String = "https://oauth2-api.mapmyapi.com/v7.1/user/self/"
+
+  // All UA requests have to have the "Api-Key" HTTP header...
+  protected override def createProxyRequest(url: String): ProxyOAuthRequest = {
+    val r = super.createProxyRequest(url)
+    r.addHeader("Api-Key", underArmourKey)
+    r
+  }
 
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
