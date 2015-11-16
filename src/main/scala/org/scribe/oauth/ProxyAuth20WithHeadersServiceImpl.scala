@@ -2,8 +2,6 @@ package org.scribe.oauth
 
 import org.scribe.model._
 import org.scribe.builder.api.DefaultApi20
-import scala.math.Ordering.String
-import scala.Predef.String
 
 /**
  * For Oauth2 implementations that need to also set HTTP headers
@@ -36,15 +34,15 @@ class ProxyAuth20WithHeadersServiceImpl(
         request.addQuerystringParameter("grant_type", "authorization_code")
       }
     } else {
-      request.addBodyParameter(OAuthConstants.CLIENT_ID, this.config.getApiKey)
-      request.addBodyParameter(OAuthConstants.CLIENT_SECRET, this.config.getApiSecret)
-      request.addBodyParameter(OAuthConstants.CODE, verifier.getValue())
-      request.addBodyParameter(OAuthConstants.REDIRECT_URI, this.config.getCallback)
-      if (this.config.hasScope) {
-        request.addBodyParameter(OAuthConstants.SCOPE, this.config.getScope)
-      }
       if (this.addGrantType) {
         request.addBodyParameter("grant_type", "authorization_code")
+      }
+      request.addBodyParameter(OAuthConstants.CLIENT_ID, this.config.getApiKey)
+      request.addBodyParameter(OAuthConstants.CLIENT_SECRET, this.config.getApiSecret)
+      request.addBodyParameter(OAuthConstants.CODE, verifier.getValue)
+      //request.addBodyParameter(OAuthConstants.REDIRECT_URI, this.config.getCallback)
+      if (this.config.hasScope) {
+        request.addBodyParameter(OAuthConstants.SCOPE, this.config.getScope)
       }
     }
     val headers = addHeaders(requestToken, api, config)
@@ -52,7 +50,7 @@ class ProxyAuth20WithHeadersServiceImpl(
       case (k, v) =>
         request.addHeader(k, v)
     }
-    val response = request.send()
+    val response = request.send
     return this.api.getAccessTokenExtractor.extract(response.getBody)
   }
 
