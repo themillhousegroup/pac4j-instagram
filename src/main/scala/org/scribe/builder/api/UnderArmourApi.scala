@@ -36,12 +36,9 @@ class UnderArmourApi extends DefaultApi20 {
   override def getAuthorizationUrl(config: OAuthConfig): String = {
     Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid callback url.")
 
-    val aUrl = String.format(AUTHORIZE_URL,
+    String.format(AUTHORIZE_URL,
       config.getApiKey,
       OAuthEncoder.encode(config.getCallback)
     )
-
-    println(s"UnderArmourApi::getAuthUrl client_id is '${config.getApiKey}'; returning '$aUrl'")
-    aUrl
   }
 }

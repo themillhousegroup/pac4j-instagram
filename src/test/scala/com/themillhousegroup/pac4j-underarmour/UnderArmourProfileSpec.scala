@@ -13,6 +13,7 @@ class UnderArmourProfileSpec extends Specification {
     "be able to populate the basic CommonProfile fields of an UnderArmourProfile from a String" in {
       val p = UnderArmourProfileBuilder.createFromString(fullProfile)
 
+      p.getId must beEqualTo("512262")
       p.getDisplayName must beEqualTo("FirstName 'Display' McLastName")
       p.getEmail must beEqualTo("me@myemail.com")
       p.getFamilyName must beEqualTo("McLastName")
@@ -20,8 +21,8 @@ class UnderArmourProfileSpec extends Specification {
       p.getGender must beEqualTo(org.pac4j.core.profile.Gender.MALE)
       p.getLocale must beNull // beEqualTo(new java.util.Locale("EN", "AU"))
       p.getLocation must beEqualTo("Locality")
-      p.getPictureUrl must beEqualTo("")
-      p.getProfileUrl must beEqualTo("")
+      p.getPictureUrl must beEqualTo("https://api.ua.com/v7.1/user_profile_photo/512262")
+      p.getProfileUrl must beEqualTo("https://api.ua.com/v7.1/user/512262")
       p.getUsername must beEqualTo("myusername")
     }
 

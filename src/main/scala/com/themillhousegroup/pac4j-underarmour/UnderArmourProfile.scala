@@ -158,12 +158,9 @@ class UnderArmourProfile extends OAuth20Profile {
     getString(UnderArmourAttributesDefinition.EMAIL)
   }
 
-  override def getPictureUrl: String = {
-    val id = getString(UnderArmourAttributesDefinition.ID)
-    s"${UNDERARMOUR_BASE_URL}/user_profile_photo/${id}"
-  }
+  override def getPictureUrl: String = s"${UNDERARMOUR_BASE_URL}/user_profile_photo/${getId}"
 
-  override val getProfileUrl: String = UNDERARMOUR_SELF_PROFILE_URL
+  override def getProfileUrl: String = s"${UNDERARMOUR_BASE_URL}/user/${getId}"
 
   override def getGender: Gender = {
     val gender = getString(UnderArmourAttributesDefinition.GENDER)

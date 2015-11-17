@@ -92,7 +92,6 @@ object UnderArmourProfileBuilder {
       profile.setId(JsonHelper.get(json, UnderArmourAttributesDefinition.ID))
 
       UnderArmourAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
-        println(s"Adding attr ${attribute} - which is ${JsonHelper.get(json, attribute)}")
         profile.addAttribute(attribute, JsonHelper.get(json, attribute))
       }
     }
