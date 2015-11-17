@@ -76,6 +76,13 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
   protected def extractUserProfile(body: String): UnderArmourProfile = {
+    UnderArmourProfileBuilder.createFromString(body)
+  }
+
+}
+
+object UnderArmourProfileBuilder {
+  def createFromString(body: String): UnderArmourProfile = {
     import org.pac4j.oauth.profile.JsonHelper
     import scala.collection.JavaConverters._
 
@@ -89,6 +96,6 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
       }
     }
     profile
-  }
 
+  }
 }
