@@ -18,11 +18,23 @@ class UnderArmourProfileSpec extends Specification {
       p.getFamilyName must beEqualTo("McLastName")
       p.getFirstName must beEqualTo("FirstName")
       p.getGender must beEqualTo(org.pac4j.core.profile.Gender.MALE)
-      p.getLocale must beEqualTo(new java.util.Locale("EN", "AU"))
-      p.getLocation must beEqualTo("")
+      p.getLocale must beNull // beEqualTo(new java.util.Locale("EN", "AU"))
+      p.getLocation must beEqualTo("Locality")
       p.getPictureUrl must beEqualTo("")
       p.getProfileUrl must beEqualTo("")
       p.getUsername must beEqualTo("myusername")
+    }
+
+    "be able to populate the specific fields of an UnderArmourProfile from a String" in {
+      val p = UnderArmourProfileBuilder.createFromString(fullProfile)
+
+      val fullLocation = new UnderArmourLocation()
+      fullLocation.country = "AU"
+      fullLocation.region = "Vic"
+      fullLocation.locality = "Locality"
+      fullLocation.address = "3476 Address-Field Street"
+
+      p.getFullLocation must beEqualTo(fullLocation)
     }
   }
 }

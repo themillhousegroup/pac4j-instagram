@@ -12,6 +12,7 @@ object UnderArmourAttributesDefinition extends OAuthAttributesDefinition {
   val FIRST_NAME = "first_name"
   val LAST_NAME = "last_name"
   val DISPLAY_NAME = "display_name"
+  val EMAIL = "email"
 
   val LOCATION = "location"
   val LOCALITY = "locality"
@@ -19,22 +20,28 @@ object UnderArmourAttributesDefinition extends OAuthAttributesDefinition {
   val COUNTRY = "country"
   val GENDER = "gender"
 
-  val EMAIL = "email"
-
   addAttribute(FIRST_NAME, Converters.stringConverter)
   addAttribute(LAST_NAME, Converters.stringConverter)
   addAttribute(DISPLAY_NAME, Converters.stringConverter)
+  addAttribute(EMAIL, Converters.stringConverter)
 
   addAttribute(LOCATION, UnderArmourConverters.locationConverter)
   addAttribute(GENDER, Converters.stringConverter)
 }
 
-class UnderArmourLocation(var country: String, var region: String, var locality: String) extends JsonObject {
+class UnderArmourLocation extends JsonObject {
+  var country: String = ""
+  var region: String = ""
+  var locality: String = ""
+  var address: String = ""
+
   import com.fasterxml.jackson.databind.JsonNode
   override def buildFromJson(json: JsonNode): Unit = {
+    System.err.println(s"ual:buildFromJson on ${json}")
     this.country = JsonHelper.convert(Converters.stringConverter, json, "country").asInstanceOf[String]
     this.region = JsonHelper.convert(Converters.stringConverter, json, "region").asInstanceOf[String]
     this.locality = JsonHelper.convert(Converters.stringConverter, json, "locality").asInstanceOf[String]
+    this.address = JsonHelper.convert(Converters.stringConverter, json, "address").asInstanceOf[String]
   }
 }
 
