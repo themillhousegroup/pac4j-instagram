@@ -18,10 +18,15 @@ class ProxyAuth20WithHeadersServiceImpl(
   addGrantType: Boolean)
     extends ProxyOAuth20ServiceImpl(api, config, connectTimeout, readTimeout, proxyHost, proxyPort, getParameter, addGrantType) {
 
-  override def getAccessToken(requestToken: Token, verifier: Verifier): Token = {
-    val request = new ProxyOAuthRequest(this.api.getAccessTokenVerb,
+  // For testability
+  private[oauth] def createRequest: ProxyOAuthRequest = {
+    new ProxyOAuthRequest(this.api.getAccessTokenVerb,
       this.api.getAccessTokenEndpoint, this.connectTimeout,
       this.readTimeout, this.proxyHost, this.proxyPort)
+  }
+
+  override def getAccessToken(requestToken: Token, verifier: Verifier): Token = {
+    val request = createRequest
     if (this.getParameter) {
       request.addQuerystringParameter(OAuthConstants.CLIENT_ID, this.config.getApiKey)
       request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, this.config.getApiSecret)
@@ -51,7 +56,7 @@ class ProxyAuth20WithHeadersServiceImpl(
         request.addHeader(k, v)
     }
     val response = request.send
-    return this.api.getAccessTokenExtractor.extract(response.getBody)
+    api.getAccessTokenExtractor.extract(response.getBody)
   }
 
   def addHeaders(requestToken: Token, api: DefaultApi20, config: OAuthConfig): List[(String, String)] = {
