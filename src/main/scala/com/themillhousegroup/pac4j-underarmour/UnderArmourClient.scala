@@ -33,7 +33,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
     super.internalInit()
     // FIXME: Filthy hack - UA seems unable to support having extra params in the callback URL
     // (like client_name=UnderArmourClient  - which is how pac4j routes it back to us...)
-    // so experimenting with putting the client name IN the callback URL rather than just as a param:
+    // so we rewrite the client name INTO the callback URL rather than just as a param:
     // Before:
     // http://my-app:9000/callback?client_name=UnderArmourClient
     // After:
