@@ -15,5 +15,13 @@ class UnderArmourClientSpec extends Specification {
       uac.init // will throw if things are not right
       uac must not beNull
     }
+
+    "Support providing a custom callback URL" in {
+      val uac = new UnderArmourClient("key", "secret", "/custom-callback-url")
+      uac.setCallbackUrl("http://callbackUrl")
+      uac.init // will throw if things are not right
+      uac must not beNull
+
+    }
   }
 }

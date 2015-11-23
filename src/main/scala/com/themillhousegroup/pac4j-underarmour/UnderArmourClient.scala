@@ -15,7 +15,7 @@ import java.net.URL
 /**
  * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register
  */
-class UnderArmourClient(underArmourKey: String, clientSecret: String) extends BaseOAuth20Client[UnderArmourProfile] {
+class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/UnderArmourClient/callback") extends BaseOAuth20Client[UnderArmourProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
@@ -41,8 +41,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String) extends Ba
     // This will need support in your client app's routes mapping
 
     val u = new URL(callbackUrl)
-    val newPath = s"UnderArmourClient${u.getPath}"
-    val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}/$newPath"
+    val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}${clientCallbackUrl}"
     service =
       new ProxyAuth20WithHeadersServiceImpl(
         new UnderArmourApi(),
