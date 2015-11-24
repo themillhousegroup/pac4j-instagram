@@ -78,6 +78,7 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCall
     UnderArmourProfileBuilder.createFromString(body)
   }
 
+  private[pac4junderarmour] def getService = service
 }
 
 object UnderArmourProfileBuilder {
