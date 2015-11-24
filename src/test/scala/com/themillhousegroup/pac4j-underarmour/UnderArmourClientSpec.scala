@@ -1,6 +1,7 @@
 package com.themillhousegroup.pac4junderarmour
 
 import org.specs2.mutable.Specification
+import org.scribe.oauth._
 
 class UnderArmourClientSpec extends Specification {
   "UnderArmour client" should {
@@ -23,7 +24,29 @@ class UnderArmourClientSpec extends Specification {
 
       uac must not beNull
 
-      uac.getService must not beNull
+      val svc = uac.getService.asInstanceOf[ProxyAuth20WithHeadersServiceImpl]
+
+      val cfg = svc.getConfig
+
+      cfg must not beNull
+
+      cfg.getCallback must beEqualTo("http://callbackUrl/custom-callback-url")
+    }
+
+    "Providing a reasonable callback URL by default" in {
+      val uac = new UnderArmourClient("key", "secret")
+      uac.setCallbackUrl("http://callbackUrl")
+      uac.init // will throw if things are not right
+
+      uac must not beNull
+
+      val svc = uac.getService.asInstanceOf[ProxyAuth20WithHeadersServiceImpl]
+
+      val cfg = svc.getConfig
+
+      cfg must not beNull
+
+      cfg.getCallback must beEqualTo("http://callbackUrl/UnderArmourClient/callback")
     }
   }
 }
