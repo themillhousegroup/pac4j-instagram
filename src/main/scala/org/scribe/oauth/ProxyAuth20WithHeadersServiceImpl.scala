@@ -25,6 +25,8 @@ class ProxyAuth20WithHeadersServiceImpl(
       this.readTimeout, this.proxyHost, this.proxyPort)
   }
 
+  def getConfig = config
+
   override def getAccessToken(requestToken: Token, verifier: Verifier): Token = {
     val request = createRequest
     if (this.getParameter) {
