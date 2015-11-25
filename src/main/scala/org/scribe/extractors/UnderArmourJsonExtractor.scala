@@ -1,65 +1,55 @@
-package org.scribe.extractors;
+package org.scribe.extractors
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.scribe.exceptions.OAuthException;
-import org.scribe.model.Token;
-import org.scribe.utils.Preconditions;
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import org.scribe.exceptions.OAuthException
+import org.scribe.model.Token
+import org.scribe.utils.Preconditions
 
-import java.io.IOException;
+import java.io.IOException
 
 /**
- * Json token extractor for Strava using Jackson to parse the response.
- *
- * @author Adrian Papusoi
+ * Json token extractor for UnderArmour using Jackson to parse the response.
  */
-public class StravaJsonExtractor implements AccessTokenExtractor {
+class UnderArmourJsonExtractor extends AccessTokenExtractor {
 
-    private static final String OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE = "Response body is incorrect. Can't extract a token from this: '";
+  private val OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE = "Response body is incorrect. Can't extract a token from this: '"
 
-    /**
-     * Object mapper needed to extract the token from the Strava response.
-     */
-    private ObjectMapper objectMapper = new ObjectMapper();
+  /**
+   * Object mapper needed to extract the token from the UA response.
+   */
+  val objectMapper = new ObjectMapper()
+  objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-    public StravaJsonExtractor() {
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  def extract(response: String): Token = {
+    Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string")
+
+    try {
+      val accessToken = objectMapper.readValue(response, classOf[UnderArmourAccessToken])
+      if (accessToken == null || accessToken.getAccessToken == null) {
+        throw new OAuthException(OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE + response + "'", null)
+      }
+      val accessTokenValue = accessToken.getAccessToken
+      new Token(accessTokenValue, "", response)
+    } catch {
+      case e: IOException => throw new OAuthException(OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE + response + "'", null)
     }
+  }
+}
 
-    public Token extract(String response) {
-        Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string");
+private class UnderArmourAccessToken {
+  /**
+   * the access_token json property
+   */
+  @JsonProperty("access_token")
+  private var accessToken: String = ""
 
-        try {
-            StravaJsonExtractor.StravaAccessToken stravaAccessToken = objectMapper.readValue(response, StravaJsonExtractor.StravaAccessToken.class);
-            if (stravaAccessToken == null || stravaAccessToken.getAccessToken() == null) {
-                throw new OAuthException(OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE + response + "'", null);
-            }
-            String accessTokenValue = stravaAccessToken.getAccessToken();
-            return new Token(accessTokenValue, "", response);
-        } catch (IOException e) {
-            throw new OAuthException(OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE + response + "'", null);
-        }
-    }
+  def getAccessToken: String = {
+    accessToken
+  }
 
-    /**
-     * inner class encapsulating the response of the access token request from Strava
-     */
-    private static class StravaAccessToken {
-        /**
-         * the access_token json property
-         */
-        @JsonProperty("access_token")
-        private String accessToken;
-
-        public String getAccessToken() {
-            return accessToken;
-        }
-
-        public void setAccessToken(String accessToken) {
-            this.accessToken = accessToken;
-        }
-    }
-
-
+  def setAccessToken(accessToken: String): Unit = {
+    this.accessToken = accessToken
+  }
 }
