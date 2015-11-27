@@ -1,7 +1,7 @@
 pac4j-underarmour
 ============================
 
-Pac4J integration for the Under Armour (MapMyRun / MapMyRide) API.
+[Pac4j](https://github.com/pac4j/pac4j) integration for the Under Armour (MapMyRun / MapMyRide) API.
 
 
 ### Installation
@@ -19,7 +19,7 @@ Bring in the library by adding the following to your ```build.sbt```.
 
 ```
    libraryDependencies ++= Seq(
-     "com.themillhousegroup" %% "pac4j-underarmour" % "0.1.28"
+     "com.themillhousegroup" %% "pac4j-underarmour" % "0.1.32"
    )
 
 ```
@@ -31,9 +31,17 @@ Please note - this library is not ready for production use! Once it is, the vers
 
 Once you have __pac4j-underarmour__ added to your project, you can start using it like this:
 
+##### Add it to your list of clients in your setup code:
 ```
 import com.themillhousegroup.pac4j-underarmour
 
+...
+val facebookClient = new FacebookClient("fbId", "fbSecret")
+...
+val underarmourClient = new UnderArmourClient("uaId", "uaSecret")
+...
+
+new Clients(baseUrl + "/callback", facebookClient, underarmourClient)
 
 ```
 
@@ -64,7 +72,24 @@ The requested redirect didn't match the client settings.
 ```
 - YOU (as the web application developer) will need to implement a redirect from `/UnderArmourClient/callback` to `/callback?client_name=UnderArmourClient` to get the pac4j handling to work properly.
 
+#### If you'd like to use a different form of callback URL:
 
+The `UnderArmourClient` constructor accepts an optional third `String` parameter which, if supplied, will be used to form the final callback URL passed over to UnderArmour. 
+##### Example:
+
+Specify a custom callback URL in the constructor:
+```
+  val underArmourClient = new UnderArmourClient(uaId, uaSecret, "/mySpecial/callbackUrl")
+```
+ 
+After granting authority, the UnderArmour servers will then make a `GET` request to:
+```
+  http://my-base-address/mySpecial/callbackUrl?state=&code=abcd1234
+```
+And you will need to ensure that a handler is present to then redirect to the final endpoint:
+```
+  http://my-base-address/callback?state=&code=abcd1234&client_name=UnderArmourClient
+```
 ### Branding 
 Note that according to the [Developer Guidelines](https://developer.underarmour.com/docs/v70_Authentication) you are __required__ to use the following buttons for login buttons:
 
