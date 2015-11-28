@@ -72,9 +72,33 @@ The requested redirect didn't match the client settings.
 ```
 - YOU (as the web application developer) will need to implement a redirect from `/UnderArmourClient/callback` to `/callback?client_name=UnderArmourClient` to get the pac4j handling to work properly.
 
+##### Here's an example of how you would do it in Play Framework 2.4 (Scala):
+
+`conf/routes`:
+
+```
+GET         /UnderArmourClient/callback     controllers.MyController.redirectUA
+
+```
+
+`app/controllers/MyController.scala`:
+
+```
+import play.api.mvc._
+
+class MyController extends Controller {
+	def redirectUA = Action { request =>
+		val rawQS = request.rawQueryString
+		val target = s"/callback?${rawQS}&client_name=UnderArmourClient"
+		Redirect(target)
+	}
+}
+```
+
 #### If you'd like to use a different form of callback URL:
 
 The `UnderArmourClient` constructor accepts an optional third `String` parameter which, if supplied, will be used to form the final callback URL passed over to UnderArmour. 
+
 ##### Example:
 
 Specify a custom callback URL in the constructor:
@@ -98,9 +122,6 @@ Note that according to the [Developer Guidelines](https://developer.underarmour.
 ![b3](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-medium.png)
 
 Don't forget! 
-
-
-### Still To-Do
 
 ### Credits
 
