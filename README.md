@@ -84,6 +84,8 @@ GET         /UnderArmourClient/callback     controllers.MyController.redirectUA
 `app/controllers/MyController.scala`:
 
 ```
+package controllers
+
 import play.api.mvc._
 
 class MyController extends Controller {
