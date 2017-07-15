@@ -13,9 +13,9 @@ import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
 import java.net.URL
 
 /**
- * Get the key and secret values by registering your app at https://developer.underarmour.com/apps/register
+ * Get the key and secret values by registering your app at https://www.instagram.com/developer/clients/manage/
  */
-class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/UnderArmourClient/callback") extends BaseOAuth20Client[UnderArmourProfile] {
+class InstagramClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/InstagramClient/callback") extends BaseOAuth20Client[InstagramProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
@@ -25,19 +25,19 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCall
   setSecret(clientSecret)
   setTokenAsHeader(true)
 
-  protected def newClient(): BaseClient[OAuthCredentials, UnderArmourProfile] = {
-    new UnderArmourClient(key, secret)
+  protected def newClient(): BaseClient[OAuthCredentials, InstagramProfile] = {
+    new InstagramClient(key, secret)
   }
 
   protected override def internalInit(): Unit = {
     super.internalInit()
     // FIXME: Filthy hack - UA seems unable to support having extra params in the callback URL
-    // (like client_name=UnderArmourClient  - which is how pac4j routes it back to us...)
+    // (like client_name=InstagramClient  - which is how pac4j routes it back to us...)
     // so we rewrite the client name INTO the callback URL rather than just as a param:
     // Before:
-    // http://my-app:9000/callback?client_name=UnderArmourClient
+    // http://my-app:9000/callback?client_name=InstagramClient
     // After:
-    // http://my-app:9000/UnderArmourClient/callback
+    // http://my-app:9000/InstagramClient/callback
     // This will need support in your client app's routes mapping
 
     val u = new URL(callbackUrl)
@@ -74,19 +74,19 @@ class UnderArmourClient(underArmourKey: String, clientSecret: String, clientCall
 
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
-  protected def extractUserProfile(body: String): UnderArmourProfile = {
-    UnderArmourProfileBuilder.createFromString(body)
+  protected def extractUserProfile(body: String): InstagramProfile = {
+    InstagramProfileBuilder.createFromString(body)
   }
 
   private[pac4junderarmour] def getService = service
 }
 
-object UnderArmourProfileBuilder {
-  def createFromString(body: String): UnderArmourProfile = {
+object InstagramProfileBuilder {
+  def createFromString(body: String): InstagramProfile = {
     import org.pac4j.oauth.profile.JsonHelper
     import scala.collection.JavaConverters._
 
-    val profile = new UnderArmourProfile()
+    val profile = new InstagramProfile()
     val json = JsonHelper.getFirstNode(body)
     if (json != null) {
       profile.setId(JsonHelper.get(json, UnderArmourAttributesDefinition.ID))

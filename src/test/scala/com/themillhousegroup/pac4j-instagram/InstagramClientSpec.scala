@@ -3,22 +3,22 @@ package com.themillhousegroup.pac4junderarmour
 import org.specs2.mutable.Specification
 import org.scribe.oauth._
 
-class UnderArmourClientSpec extends Specification {
+class InstagramClientSpec extends Specification {
   "UnderArmour client" should {
     "be instantiable" in {
-      val uac = new UnderArmourClient("key", "secret")
+      val uac = new InstagramClient("key", "secret")
       uac must not beNull
     }
 
     "be initializable by pac4j calling init()" in {
-      val uac = new UnderArmourClient("key", "secret")
+      val uac = new InstagramClient("key", "secret")
       uac.setCallbackUrl("http://callbackUrl")
       uac.init // will throw if things are not right
       uac must not beNull
     }
 
     "Support providing a custom callback URL" in {
-      val uac = new UnderArmourClient("key", "secret", "/custom-callback-url")
+      val uac = new InstagramClient("key", "secret", "/custom-callback-url")
       uac.setCallbackUrl("http://callbackUrl")
       uac.init // will throw if things are not right
 
@@ -34,7 +34,7 @@ class UnderArmourClientSpec extends Specification {
     }
 
     "Providing a reasonable callback URL by default" in {
-      val uac = new UnderArmourClient("key", "secret")
+      val uac = new InstagramClient("key", "secret")
       uac.setCallbackUrl("http://callbackUrl")
       uac.init // will throw if things are not right
 
@@ -46,7 +46,7 @@ class UnderArmourClientSpec extends Specification {
 
       cfg must not beNull
 
-      cfg.getCallback must beEqualTo("http://callbackUrl/UnderArmourClient/callback")
+      cfg.getCallback must beEqualTo("http://callbackUrl/InstagramClient/callback")
     }
   }
 }

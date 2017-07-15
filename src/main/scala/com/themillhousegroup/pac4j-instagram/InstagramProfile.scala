@@ -127,7 +127,7 @@ import org.pac4j.core.profile._
  * "preferred_language": "en-US"
  * }
  */
-class UnderArmourProfile extends OAuth20Profile {
+class InstagramProfile extends OAuth20Profile {
 
   val UNDERARMOUR_BASE_URL = "https://api.ua.com/v7.1"
   val UNDERARMOUR_SELF_PROFILE_URL = s"${UNDERARMOUR_BASE_URL}/user/self/"

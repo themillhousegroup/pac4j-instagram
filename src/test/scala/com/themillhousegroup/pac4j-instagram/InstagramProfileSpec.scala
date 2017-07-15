@@ -3,14 +3,14 @@ package com.themillhousegroup.pac4junderarmour
 import org.specs2.mutable.Specification
 import com.themillhousegroup.pac4junderarmour.test.ProfileFixtures._
 
-class UnderArmourProfileSpec extends Specification {
+class InstagramProfileSpec extends Specification {
   "UnderArmour profile builder" should {
-    "be able to create a non-null UnderArmourProfile from a String" in {
+    "be able to create a non-null InstagramProfile from a String" in {
       val p = UnderArmourProfileBuilder.createFromString(fullProfile)
       p must not beNull
     }
 
-    "be able to populate the basic CommonProfile fields of an UnderArmourProfile from a String" in {
+    "be able to populate the basic CommonProfile fields of an InstagramProfile from a String" in {
       val p = UnderArmourProfileBuilder.createFromString(fullProfile)
 
       p.getId must beEqualTo("512262")
@@ -26,7 +26,7 @@ class UnderArmourProfileSpec extends Specification {
       p.getUsername must beEqualTo("myusername")
     }
 
-    "be able to populate the specific fields of an UnderArmourProfile from a String" in {
+    "be able to populate the specific fields of an InstagramProfile from a String" in {
       val p = UnderArmourProfileBuilder.createFromString(fullProfile)
 
       val fullLocation = new UnderArmourLocation()
