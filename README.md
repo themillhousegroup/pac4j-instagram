@@ -1,7 +1,7 @@
-pac4j-underarmour
+pac4j-instagram
 ============================
 
-[Pac4j](https://github.com/pac4j/pac4j) integration for the Under Armour (MapMyRun / MapMyRide) API.
+[Pac4j](https://github.com/pac4j/pac4j) integration for the Instagram API.
 
 
 ### Installation
@@ -19,7 +19,7 @@ Bring in the library by adding the following to your ```build.sbt```.
 
 ```
    libraryDependencies ++= Seq(
-     "com.themillhousegroup" %% "pac4j-underarmour" % "0.1.32"
+     "com.themillhousegroup" %% "pac4j-instagram" % "0.1.1"
    )
 
 ```
@@ -29,19 +29,19 @@ Please note - this library is not ready for production use! Once it is, the vers
 
 ### Usage
 
-Once you have __pac4j-underarmour__ added to your project, you can start using it like this:
+Once you have __pac4j-instagram__ added to your project, you can start using it like this:
 
 ##### Add it to your list of clients in your setup code:
 ```
-import com.themillhousegroup.pac4j-underarmour
+import com.themillhousegroup.pac4j-instagram
 
 ...
 val facebookClient = new FacebookClient("fbId", "fbSecret")
 ...
-val underarmourClient = new UnderArmourClient("uaId", "uaSecret")
+val instagramClient = new InstagramClient("igId", "igSecret")
 ...
 
-new Clients(baseUrl + "/callback", facebookClient, underarmourClient)
+new Clients(baseUrl + "/callback", facebookClient, instagramClient)
 
 ```
 
@@ -116,17 +116,9 @@ And you will need to ensure that a handler is present to then redirect to the fi
 ```
   http://my-base-address/callback?state=&code=abcd1234&client_name=UnderArmourClient
 ```
-### Branding 
-Note that according to the [Developer Guidelines](https://developer.underarmour.com/docs/v70_Authentication) you are __required__ to use the following buttons for login buttons:
-
-![b1](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-xlarge.png)
-![b2](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-large.png)
-![b3](http://developer-ua.mapmyfitness.com.s3.amazonaws.com/assets/login_buttons/UA-login_btn-medium.png)
-
-Don't forget! 
 
 ### Credits
 
 - [Pac4j](https://github.com/pac4j/pac4j)
-- [Under Armour Developer documentation](https://developer.underarmour.com/docs)
+- [Instagram Developer documentation](https://www.instagram.com/developer/authentication/)
 

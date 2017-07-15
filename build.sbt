@@ -1,4 +1,4 @@
-name := "pac4j-underarmour"
+name := "pac4j-instagram"
 
 // If the CI supplies a "build.version" environment variable, inject it as the rev part of the version number:
 version := s"${sys.props.getOrElse("build.majorMinor", "0.1")}.${sys.props.getOrElse("build.version", "SNAPSHOT")}"
