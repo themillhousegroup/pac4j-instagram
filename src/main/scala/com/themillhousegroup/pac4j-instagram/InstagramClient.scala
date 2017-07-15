@@ -14,13 +14,13 @@ import java.net.URL
 /**
  * Get the key and secret values by registering your app at https://www.instagram.com/developer/clients/manage/
  */
-class InstagramClient(underArmourKey: String, clientSecret: String, clientCallbackUrl: String = "/InstagramClient/callback") extends BaseOAuth20Client[InstagramProfile] {
+class InstagramClient(clientKey: String, clientSecret: String, clientCallbackUrl: String = "/InstagramClient/callback") extends BaseOAuth20Client[InstagramProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
    */
   protected val scope: String = null
-  setKey(underArmourKey)
+  setKey(clientKey)
   setSecret(clientSecret)
   setTokenAsHeader(true)
 
@@ -46,12 +46,20 @@ object InstagramProfileBuilder {
 
     val profile = new InstagramProfile()
     val json = JsonHelper.getFirstNode(body)
-    if (json != null) {
-      profile.setId(JsonHelper.get(json, InstagramAttributesDefinition.ID))
+    println(s"body: $body")
+    println(s"json: $json")
 
-      InstagramAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
-        profile.addAttribute(attribute, JsonHelper.get(json, attribute))
+    if (json != null) {
+      val data = json.get(InstagramAttributesDefinition.DATA)
+      println(s"data: $data")
+      if (data != null) {
+        profile.setId(JsonHelper.get(data, InstagramAttributesDefinition.ID))
+
+        InstagramAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
+          profile.addAttribute(attribute, JsonHelper.get(data, attribute))
+        }
       }
+
     }
     profile
 

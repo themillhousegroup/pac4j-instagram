@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode
 
 object InstagramAttributesDefinition extends OAuthAttributesDefinition {
 
+  val DATA = "data"
   val ID = "id"
   val USERNAME = "username"
   val FULL_NAME = "full_name"
