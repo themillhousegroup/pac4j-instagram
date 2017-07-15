@@ -1,11 +1,10 @@
-package com.themillhousegroup.pac4junderarmour
+package com.themillhousegroup.pac4jinstagram
 
 import org.pac4j.oauth.client._
 import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.core.client.BaseClient
 import org.scribe.model.Token
 import org.pac4j.core.context.WebContext
-import org.scribe.oauth.{ ProxyAuth20WithHeadersServiceImpl, ProxyOAuth20ServiceImpl }
 import org.scribe.model.ProxyOAuthRequest
 import org.scribe.model.OAuthConfig
 import org.scribe.model.SignatureType
@@ -29,56 +28,15 @@ class InstagramClient(underArmourKey: String, clientSecret: String, clientCallba
     new InstagramClient(key, secret)
   }
 
-  protected override def internalInit(): Unit = {
-    super.internalInit()
-    // FIXME: Filthy hack - UA seems unable to support having extra params in the callback URL
-    // (like client_name=InstagramClient  - which is how pac4j routes it back to us...)
-    // so we rewrite the client name INTO the callback URL rather than just as a param:
-    // Before:
-    // http://my-app:9000/callback?client_name=InstagramClient
-    // After:
-    // http://my-app:9000/InstagramClient/callback
-    // This will need support in your client app's routes mapping
-
-    val u = new URL(callbackUrl)
-    val modifiedCallbackUrl = s"${u.getProtocol}://${u.getAuthority}${clientCallbackUrl}"
-    service =
-      new ProxyAuth20WithHeadersServiceImpl(
-        new UnderArmourApi(),
-        new OAuthConfig(key, secret, modifiedCallbackUrl, SignatureType.Header, scope, null),
-        connectTimeout,
-        readTimeout,
-        proxyHost,
-        proxyPort,
-        false,
-        true) {
-        override def addHeaders(requestToken: Token, api: DefaultApi20, config: OAuthConfig): List[(String, String)] = {
-          // As per:
-          // https://developer.underarmour.com/docs/v71_OAuth_2_Intro
-          // we need to add "Api-Key" with the client ID
-          List("Api-Key" -> config.getApiKey)
-        }
-      }
-  }
-
   protected def requiresStateParameter(): Boolean = false
 
-  protected def getProfileUrl(accessToken: Token): String = "https://oauth2-api.mapmyapi.com/v7.1/user/self/"
-
-  // All UA requests have to have the "Api-Key" HTTP header...
-  protected override def createProxyRequest(url: String): ProxyOAuthRequest = {
-    val r = super.createProxyRequest(url)
-    r.addHeader("Api-Key", underArmourKey)
-    r
-  }
+  protected def getProfileUrl(accessToken: Token): String = s"https://api.instagram.com/v1/users/self/?access_token=${accessToken.getToken}"
 
   protected def hasBeenCancelled(context: WebContext): Boolean = false
 
   protected def extractUserProfile(body: String): InstagramProfile = {
     InstagramProfileBuilder.createFromString(body)
   }
-
-  private[pac4junderarmour] def getService = service
 }
 
 object InstagramProfileBuilder {
@@ -89,9 +47,9 @@ object InstagramProfileBuilder {
     val profile = new InstagramProfile()
     val json = JsonHelper.getFirstNode(body)
     if (json != null) {
-      profile.setId(JsonHelper.get(json, UnderArmourAttributesDefinition.ID))
+      profile.setId(JsonHelper.get(json, InstagramAttributesDefinition.ID))
 
-      UnderArmourAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
+      InstagramAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
         profile.addAttribute(attribute, JsonHelper.get(json, attribute))
       }
     }
