@@ -10,14 +10,14 @@ import org.scribe.utils.Preconditions
 import java.io.IOException
 
 /**
- * Json token extractor for UnderArmour using Jackson to parse the response.
+ * Json token extractor for Instagram using Jackson to parse the response.
  */
 class InstagramJsonExtractor extends AccessTokenExtractor {
 
   private val OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE = "Response body is incorrect. Can't extract a token from this: '"
 
   /**
-   * Object mapper needed to extract the token from the UA response.
+   * Object mapper needed to extract the token from the Instagram response.
    */
   val objectMapper = new ObjectMapper()
   objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -26,7 +26,7 @@ class InstagramJsonExtractor extends AccessTokenExtractor {
     Preconditions.checkEmptyString(response, "Response body is incorrect. Can't extract a token from an empty string")
 
     try {
-      val accessToken = objectMapper.readValue(response, classOf[UnderArmourAccessToken])
+      val accessToken = objectMapper.readValue(response, classOf[InstagramAccessToken])
       if (accessToken == null || accessToken.getAccessToken == null) {
         throw new OAuthException(OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE + response + "'", null)
       }
@@ -38,7 +38,7 @@ class InstagramJsonExtractor extends AccessTokenExtractor {
   }
 }
 
-private class UnderArmourAccessToken {
+private class InstagramAccessToken {
   /**
    * the access_token json property
    */

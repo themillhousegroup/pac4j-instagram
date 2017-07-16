@@ -8,7 +8,7 @@ import org.pac4j.core.context.WebContext
 import org.scribe.model.ProxyOAuthRequest
 import org.scribe.model.OAuthConfig
 import org.scribe.model.SignatureType
-import org.scribe.builder.api.{ DefaultApi20, UnderArmourApi }
+import org.scribe.builder.api.{ DefaultApi20, InstagramApi }
 import java.net.URL
 
 /**

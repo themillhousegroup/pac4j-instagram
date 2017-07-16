@@ -1,7 +1,7 @@
 package org.scribe.builder.api
 
 import org.scribe.extractors.AccessTokenExtractor
-import org.scribe.extractors.StravaJsonExtractor
+import org.scribe.extractors.InstagramJsonExtractor
 import org.scribe.model.OAuthConfig
 import org.scribe.model.Verb
 import org.scribe.utils.OAuthEncoder
@@ -9,16 +9,16 @@ import org.scribe.utils.Preconditions
 
 object InstagramApi {
   /**
-   * UnderArmour authorization URL
+   * Instagram authorization URL
    */
-  private val AUTHORIZE_URL = "https://www.mapmyfitness.com/v7.1/oauth2/uacf/authorize/?response_type=code&client_id=%s&redirect_uri=%s"
+  private val AUTHORIZE_URL = "https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code"
 
-  private val ACCESS_TOKEN_URL = "https://oauth2-api.mapmyapi.com/v7.1/oauth2/uacf/access_token/"
+  private val ACCESS_TOKEN_URL = "https://api.instagram.com/oauth/access_token"
 
   /**
-   * Need to redefine the token extractor, because the token comes from Strava in json format.
+   * Need to redefine the token extractor, because the token comes from Instagram in json format.
    */
-  private val ACCESS_TOKEN_EXTRACTOR: AccessTokenExtractor = new StravaJsonExtractor();
+  private val ACCESS_TOKEN_EXTRACTOR: AccessTokenExtractor = new InstagramJsonExtractor()
 }
 
 /**
@@ -34,7 +34,7 @@ class InstagramApi extends DefaultApi20 {
   override val getAccessTokenExtractor: AccessTokenExtractor = ACCESS_TOKEN_EXTRACTOR
 
   override def getAuthorizationUrl(config: OAuthConfig): String = {
-    Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid callback url.")
+    Preconditions.checkValidUrl(config.getCallback, "Must provide a valid callback url.")
 
     String.format(AUTHORIZE_URL,
       config.getApiKey,
