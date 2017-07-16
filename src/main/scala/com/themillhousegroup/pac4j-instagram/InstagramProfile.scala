@@ -6,7 +6,7 @@ import org.pac4j.core.profile._
 /**
  * Example JSON from GET /users/self:
  * {
- * "data": {
+ * "user": {
  * "id": "1574083",
  * "username": "snoopdogg",
  * "full_name": "Snoop Dogg",
