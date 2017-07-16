@@ -12,7 +12,7 @@ import java.io.IOException
 /**
  * Json token extractor for UnderArmour using Jackson to parse the response.
  */
-class UnderArmourJsonExtractor extends AccessTokenExtractor {
+class InstagramJsonExtractor extends AccessTokenExtractor {
 
   private val OAUTH_EXCEPTION_INVALID_TOKEN_MESSAGE = "Response body is incorrect. Can't extract a token from this: '"
 

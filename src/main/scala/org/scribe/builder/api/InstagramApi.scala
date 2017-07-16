@@ -7,7 +7,7 @@ import org.scribe.model.Verb
 import org.scribe.utils.OAuthEncoder
 import org.scribe.utils.Preconditions
 
-object UnderArmourApi {
+object InstagramApi {
   /**
    * UnderArmour authorization URL
    */
@@ -24,8 +24,8 @@ object UnderArmourApi {
 /**
  * This class represents the OAuth API implementation for UnderArmour.
  */
-class UnderArmourApi extends DefaultApi20 {
-  import UnderArmourApi._
+class InstagramApi extends DefaultApi20 {
+  import InstagramApi._
 
   override val getAccessTokenEndpoint: String = ACCESS_TOKEN_URL
 
