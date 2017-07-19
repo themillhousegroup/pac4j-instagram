@@ -10,7 +10,7 @@ crossScalaVersions := Seq("2.11.7", "2.10.5")
 organization := "com.themillhousegroup"
 
 libraryDependencies ++= Seq(
-	  "org.pac4j"                   %   "pac4j-oauth"           % "1.8.0",
+	"org.pac4j"                   %   "pac4j-oauth"           % "1.9.7",
     "org.mockito"                 %   "mockito-all"           % "1.10.19"       % "test",
     "org.specs2"                  %%  "specs2"                % "2.3.13"      % "test"
 )
