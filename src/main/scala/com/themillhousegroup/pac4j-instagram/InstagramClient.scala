@@ -7,7 +7,9 @@ import org.pac4j.core.context.WebContext
 import org.scribe.builder.api.InstagramApi
 import java.net.URL
 
+import com.github.scribejava.core.builder.api.BaseApi
 import com.github.scribejava.core.model.OAuth2AccessToken
+import com.github.scribejava.core.oauth.OAuth20Service
 
 /**
  * Get the key and secret values by registering your app at https://www.instagram.com/developer/clients/manage/
@@ -22,6 +24,8 @@ class InstagramClient(clientKey: String, clientSecret: String) extends BaseOAuth
   setSecret(clientSecret)
   setTokenAsHeader(true)
 
+  private val approvalPrompt = "auto"
+
   protected def newClient(): BaseClient[OAuthCredentials, InstagramProfile] = {
     new InstagramClient(clientKey, clientSecret)
   }
@@ -32,6 +36,10 @@ class InstagramClient(clientKey: String, clientSecret: String) extends BaseOAuth
 
   protected def extractUserProfile(body: String): InstagramProfile = {
     InstagramProfileBuilder.createFromString(body)
+  }
+
+  protected def getApi: BaseApi[OAuth20Service] = {
+    new InstagramApi()
   }
 }
 
