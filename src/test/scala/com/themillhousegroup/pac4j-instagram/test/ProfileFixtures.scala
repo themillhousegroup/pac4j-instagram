@@ -4,7 +4,7 @@ object ProfileFixtures {
 
   val fullProfile = """
                       |{
-                      |    "user": {
+                      |    "data": {
                       |        "id": "1574083",
                       |        "username": "snoopdogg",
                       |        "full_name": "Snoop Dogg",

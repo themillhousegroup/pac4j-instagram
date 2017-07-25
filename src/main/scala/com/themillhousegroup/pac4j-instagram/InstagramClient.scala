@@ -31,7 +31,7 @@ class InstagramClient(clientKey: String, clientSecret: String) extends BaseOAuth
   }
 
   // As per https://www.instagram.com/developer/authentication/ - we must use grant_type: authorization_code in the access token request
-  override protected val hasOAuthGrantType:Boolean = true
+  override protected val hasOAuthGrantType: Boolean = true
 
   protected def getProfileUrl(accessToken: OAuth2AccessToken): String = s"https://api.instagram.com/v1/users/self/?access_token=${accessToken.getAccessToken}"
 
@@ -51,12 +51,8 @@ object InstagramProfileBuilder {
 
     val profile = new InstagramProfile()
     val json = JsonHelper.getFirstNode(body)
-    println(s"body: $body")
-    println(s"json: $json")
-
     if (json != null) {
       val data = json.get(InstagramAttributesDefinition.DATA)
-      println(s"data: $data")
       if (data != null) {
         profile.setId(JsonHelper.getElement(data, InstagramAttributesDefinition.ID))
 
