@@ -1,21 +1,18 @@
 package com.themillhousegroup.pac4jinstagram
 
 import org.pac4j.core.profile.converter.Converters
-import org.pac4j.oauth.profile.OAuthAttributesDefinition
-import org.pac4j.oauth.profile.JsonHelper
-import org.pac4j.oauth.profile.JsonObject
-import com.fasterxml.jackson.databind.JsonNode
+import org.pac4j.core.profile.AttributesDefinition
 
-object InstagramAttributesDefinition extends OAuthAttributesDefinition {
+object InstagramAttributesDefinition extends AttributesDefinition {
 
-  val DATA = "user"
+  val DATA = "data"
   val ID = "id"
   val USERNAME = "username"
   val FULL_NAME = "full_name"
   val PROFILE_PIC = "profile_picture"
 
-  addAttribute(USERNAME, Converters.stringConverter)
-  addAttribute(FULL_NAME, Converters.stringConverter)
+  primary(USERNAME, Converters.STRING)
+  primary(FULL_NAME, Converters.STRING)
 
-  addAttribute(PROFILE_PIC, Converters.stringConverter)
+  primary(PROFILE_PIC, Converters.STRING)
 }
