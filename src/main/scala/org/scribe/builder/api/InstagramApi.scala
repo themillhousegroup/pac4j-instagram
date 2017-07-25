@@ -3,7 +3,6 @@ package org.scribe.builder.api
 import com.github.scribejava.core.builder.api.DefaultApi20
 import com.github.scribejava.core.model.{ OAuthConfig, Verb }
 import com.github.scribejava.core.utils.{ OAuthEncoder, Preconditions }
-import org.scribe.extractors.InstagramJsonExtractor
 
 object InstagramApi {
   /**

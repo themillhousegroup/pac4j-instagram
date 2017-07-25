@@ -59,8 +59,8 @@ object InstagramProfileBuilder {
       if (data != null) {
         profile.setId(JsonHelper.getElement(data, InstagramAttributesDefinition.ID))
 
-        InstagramAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
-          profile.addAttribute(attribute, JsonHelper.get(data, attribute))
+        InstagramAttributesDefinition.getPrimaryAttributes.asScala.foreach { attribute =>
+          profile.addAttribute(attribute, JsonHelper.getElement(data, attribute))
         }
       }
 
