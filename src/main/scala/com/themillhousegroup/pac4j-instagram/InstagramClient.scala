@@ -3,18 +3,16 @@ package com.themillhousegroup.pac4jinstagram
 import org.pac4j.oauth.client._
 import org.pac4j.oauth.credentials.OAuthCredentials
 import org.pac4j.core.client.BaseClient
-import org.scribe.model.Token
 import org.pac4j.core.context.WebContext
-import org.scribe.model.ProxyOAuthRequest
-import org.scribe.model.OAuthConfig
-import org.scribe.model.SignatureType
-import org.scribe.builder.api.{ DefaultApi20, InstagramApi }
+import org.scribe.builder.api.InstagramApi
 import java.net.URL
+
+import com.github.scribejava.core.model.OAuth2AccessToken
 
 /**
  * Get the key and secret values by registering your app at https://www.instagram.com/developer/clients/manage/
  */
-class InstagramClient(clientKey: String, clientSecret: String, clientCallbackUrl: String = "/InstagramClient/callback") extends BaseOAuth20Client[InstagramProfile] {
+class InstagramClient(clientKey: String, clientSecret: String) extends BaseOAuth20Client[InstagramProfile] {
 
   /**
    * comma delimited string of ‘view_private’ and/or ‘write’, leave blank for read-only permissions. FIXME
@@ -25,14 +23,12 @@ class InstagramClient(clientKey: String, clientSecret: String, clientCallbackUrl
   setTokenAsHeader(true)
 
   protected def newClient(): BaseClient[OAuthCredentials, InstagramProfile] = {
-    new InstagramClient(key, secret)
+    new InstagramClient(clientKey, clientSecret)
   }
 
   protected def requiresStateParameter(): Boolean = false
 
-  protected def getProfileUrl(accessToken: Token): String = s"https://api.instagram.com/v1/users/self/?access_token=${accessToken.getToken}"
-
-  protected def hasBeenCancelled(context: WebContext): Boolean = false
+  protected def getProfileUrl(accessToken: OAuth2AccessToken): String = s"https://api.instagram.com/v1/users/self/?access_token=${accessToken.getAccessToken}"
 
   protected def extractUserProfile(body: String): InstagramProfile = {
     InstagramProfileBuilder.createFromString(body)
@@ -53,7 +49,7 @@ object InstagramProfileBuilder {
       val data = json.get(InstagramAttributesDefinition.DATA)
       println(s"data: $data")
       if (data != null) {
-        profile.setId(JsonHelper.get(data, InstagramAttributesDefinition.ID))
+        profile.setId(JsonHelper.getElement(data, InstagramAttributesDefinition.ID))
 
         InstagramAttributesDefinition.getAllAttributes.asScala.foreach { attribute =>
           profile.addAttribute(attribute, JsonHelper.get(data, attribute))
