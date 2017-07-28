@@ -1,21 +1,20 @@
 package org.scribe.builder.api
 
 import com.github.scribejava.core.builder.api.DefaultApi20
-import com.github.scribejava.core.model.{ OAuthConfig, Verb }
+import com.github.scribejava.core.model.{ OAuthConstants, OAuthConfig, Verb }
 import com.github.scribejava.core.utils.{ OAuthEncoder, Preconditions }
 
 object InstagramApi {
 
   val INSTAGRAM_BASE_URL = "https://api.instagram.com"
 
-  val INSTAGRAM_API_URL = "https://api.instagram.com/v1"
+  val INSTAGRAM_API_URL = s"${INSTAGRAM_BASE_URL}/v1"
 
-  /**
-   * Instagram authorization URL
-   */
-  private val AUTHORIZE_URL = s"${INSTAGRAM_BASE_URL}/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code"
+  val INSTAGRAM_OAUTH_URL = s"${INSTAGRAM_BASE_URL}/oauth"
 
-  private val ACCESS_TOKEN_URL = s"${INSTAGRAM_BASE_URL}/oauth/access_token"
+  private val AUTHORIZE_URL = s"${INSTAGRAM_OAUTH_URL}/authorize/?client_id=%s&redirect_uri=%s&response_type=code"
+
+  private val ACCESS_TOKEN_URL = s"${INSTAGRAM_OAUTH_URL}/access_token"
 }
 
 /**
@@ -26,14 +25,18 @@ class InstagramApi extends DefaultApi20 {
 
   override val getAccessTokenEndpoint: String = ACCESS_TOKEN_URL
 
-  override val getAccessTokenVerb: Verb = Verb.POST
-
   override def getAuthorizationUrl(config: OAuthConfig): String = {
     Preconditions.checkValidUrl(config.getCallback, "Must provide a valid callback url.")
 
-    String.format(AUTHORIZE_URL,
+    val basicUrl = String.format(AUTHORIZE_URL,
       config.getApiKey,
       OAuthEncoder.encode(config.getCallback)
     )
+
+    if (config.hasScope) {
+      s"${basicUrl}&${OAuthConstants.SCOPE}=${OAuthEncoder.encode(config.getScope)}"
+    } else {
+      basicUrl
+    }
   }
 }
