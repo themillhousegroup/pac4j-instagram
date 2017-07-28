@@ -5,16 +5,21 @@ import com.github.scribejava.core.model.{ OAuthConfig, Verb }
 import com.github.scribejava.core.utils.{ OAuthEncoder, Preconditions }
 
 object InstagramApi {
+
+  val INSTAGRAM_BASE_URL = "https://api.instagram.com"
+
+  val INSTAGRAM_API_URL = "https://api.instagram.com/v1"
+
   /**
    * Instagram authorization URL
    */
-  private val AUTHORIZE_URL = "https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code"
+  private val AUTHORIZE_URL = s"${INSTAGRAM_BASE_URL}/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code"
 
-  private val ACCESS_TOKEN_URL = "https://api.instagram.com/oauth/access_token"
+  private val ACCESS_TOKEN_URL = s"${INSTAGRAM_BASE_URL}/oauth/access_token"
 }
 
 /**
- * This class represents the OAuth API implementation for UnderArmour.
+ * This class represents the OAuth API implementation for Instagram.
  */
 class InstagramApi extends DefaultApi20 {
   import InstagramApi._

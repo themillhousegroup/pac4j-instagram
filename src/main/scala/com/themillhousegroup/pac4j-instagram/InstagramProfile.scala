@@ -2,6 +2,7 @@ package com.themillhousegroup.pac4jinstagram
 
 import org.pac4j.oauth.profile.OAuth20Profile
 import org.pac4j.core.profile._
+import org.scribe.builder.api.InstagramApi
 
 /**
  * Example JSON from GET /users/self:
@@ -21,7 +22,6 @@ import org.pac4j.core.profile._
  * }
  */
 class InstagramProfile extends OAuth20Profile {
-  import InstagramProfile._
   override protected val getAttributesDefinition: AttributesDefinition = InstagramAttributesDefinition
 
   private def getString(name: String): String = {
@@ -40,11 +40,6 @@ class InstagramProfile extends OAuth20Profile {
     getString(InstagramAttributesDefinition.PROFILE_PIC)
   }
 
-  override def getProfileUrl: String = s"${INSTAGRAM_BASE_URL}/users/${getId}"
+  override def getProfileUrl: String = s"${InstagramApi.INSTAGRAM_API_URL}/users/${getId}"
 
-}
-
-object InstagramProfile {
-  val INSTAGRAM_BASE_URL = "https://api.instagram.com/v1"
-  val INSTAGRAM_SELF_PROFILE_URL = s"${INSTAGRAM_BASE_URL}/users/self/"
 }
