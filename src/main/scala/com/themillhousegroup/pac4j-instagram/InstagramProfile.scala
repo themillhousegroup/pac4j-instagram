@@ -43,3 +43,26 @@ class InstagramProfile extends OAuth20Profile {
   override def getProfileUrl: String = s"${InstagramApi.INSTAGRAM_API_URL}/users/${getId}"
 
 }
+
+object InstagramProfileBuilder {
+  def createFromString(body: String): InstagramProfile = {
+    import org.pac4j.oauth.profile.JsonHelper
+    import scala.collection.JavaConverters._
+
+    val profile = new InstagramProfile()
+    val json = JsonHelper.getFirstNode(body)
+    if (json != null) {
+      val data = json.get(InstagramAttributesDefinition.DATA)
+      if (data != null) {
+        profile.setId(JsonHelper.getElement(data, InstagramAttributesDefinition.ID))
+
+        InstagramAttributesDefinition.getPrimaryAttributes.asScala.foreach { attribute =>
+          profile.addAttribute(attribute, JsonHelper.getElement(data, attribute))
+        }
+      }
+
+    }
+    profile
+
+  }
+}
